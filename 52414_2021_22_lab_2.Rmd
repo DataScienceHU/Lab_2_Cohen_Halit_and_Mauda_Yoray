@@ -1,6 +1,6 @@
 ---
 title: "52414 - lab 2 "
-author: "52414"
+author: "Yoray Mauda 315874404 and Halit Cohen 318356854"
 date: "25/5/2022"
 output: html_document
 ---
@@ -24,6 +24,7 @@ Your final push should include this Rmd file (with your answers filled-in), toge
 <br/><br/>
 The only allowed libraries are the following (**please do not add your own without consulting the course staff**):
 ```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse) # This includes dplyr, stringr, ggplot2, .. 
 library(data.table)
 library(ggthemes)
