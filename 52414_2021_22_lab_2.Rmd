@@ -13,8 +13,14 @@ library(stringr)
 library(tidytext) 
 library(rvest)
 ```  
-
-
+1.a
+```{r, include=FALSE}
+url <- 'https://www.gutenberg.org/files/2701/2701-h/2701-h.htm'
+# Read the html into r:
+webpage <- read_html(url)
+title <- html_text(html_nodes(webpage,'.lister-item-header a'))
+length(title)
+```  
 
 
 **Solution:**  
