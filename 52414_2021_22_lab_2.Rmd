@@ -13,14 +13,28 @@ library(stringr)
 library(tidytext) 
 library(rvest)
 ```  
-1.a
+
+### Question 1
+
+In this question, we will wrangle and scrape data from the book "Moby Dick", extract information, print text, make numerous manipulation on the text, and also create different distributions for it.
+
+###### A
+
+First, we will fetch the HTML, and then we will print the first line.
+
 ```{r, include=FALSE}
 url <- 'https://www.gutenberg.org/files/2701/2701-h/2701-h.htm'
 # Read the html into r:
 webpage <- read_html(url)
 title <- html_text(html_nodes(webpage,'.lister-item-header a'))
-length(title)
+title
 ```  
+
+```{r}
+# In line 35, We are creating the first paragraph, and then extract the first line out of it. In line 36 we're returning the sentence.
+first_sentence <- webpage %>% html_nodes("div") %>% html_text()
+first_sentence[1]
+```
 
 
 **Solution:**  
