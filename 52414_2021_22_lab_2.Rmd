@@ -26,8 +26,6 @@ First, we will fetch the HTML, and then we will print the first line.
 url <- 'https://www.gutenberg.org/files/2701/2701-h/2701-h.htm'
 # Read the html into r:
 webpage <- read_html(url)
-title <- html_text(html_nodes(webpage,'.lister-item-header a'))
-title
 ```  
 
 ```{r}
@@ -36,11 +34,33 @@ first_sentence <- webpage %>% html_nodes("div") %>% html_text()
 first_sentence[1]
 ```
 
-
 **Solution:**  
 
 [INSERT YOUR TEXT, CODE, PLOTS AND TABLE HERE, SEPERATED INTO SUB-QUESTIONS]
 
+### Question 2
+
+###### A
+
+In this section we will divide the text into chapters, and will plot the count of the number of words per each episode.
+
+```{r}
+moby_text <- html_text2(webpage)
+```
+
+To discard the beginning until the EXTRACT section, We will use `str_split` and remove the beginning.
+
+```{r}
+cut_text <- str_split(moby_text, "\rErromangoan.\t\r\n\r H2 anchor\r\n\r\n\n\n\n\n\r\n\r ")[[1]][2]
+```
+
+We will not print the results we have received because it is long, but we have notices that between chapters we have division that looks like `\r\n\n\r\n\n\r \r \r\n\n\r\n\r\n\n\n\n\n\r\n\r `. Thus, we will split our text based on this division.
+
+```{r}
+chapters <- strsplit(cut_text, "\r\n\n\r\n\n\r \r \r\n\n\r\n\r\n\n\n\n\n\r\n\r ")
+chapters <- chapters[[1]]
+chapters
+```
 
 ```{r, cache=TRUE}
 # Helper function: 
@@ -58,7 +78,6 @@ wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location
   
   return(match)
 }
-
 ```
 
 
