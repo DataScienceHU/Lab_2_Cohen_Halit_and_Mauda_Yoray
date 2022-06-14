@@ -59,7 +59,7 @@ We will not print the results we have received because it is long, but we have n
 ```{r}
 chapters <- strsplit(cut_text, "\r\n\n\r\n\n\r \r \r\n\n\r\n\r\n\n\n\n\n\r\n\r ")
 chapters <- chapters[[1]]
-chapters
+chapters[1]
 ```
 
 ```{r, cache=TRUE}
