@@ -59,8 +59,26 @@ We will not print the results we have received because it is long, but we have n
 ```{r}
 chapters <- strsplit(cut_text, "\r\n\n\r\n\n\r \r \r\n\n\r\n\r\n\n\n\n\n\r\n\r ")
 chapters <- chapters[[1]]
-chapters[1]
 ```
+
+Now, for plotting the data, we will loop over the chapters and extract the wanted data for our plot
+
+```{r}
+  x_chapter_num <- c()
+  y_words_per_chapter <- c()
+  for (i in 1:length(chapters)){
+    fixed_chapter_i <- str_replace_all(chapters[i], "\\s+", " ")
+    splitsplat <- str_split(fixed_chapter_i, " ")
+    splitsplat <- c(splitsplat)
+    splitsplat <- splitsplat[[1]]
+    x_chapter_num[i] <- i
+    y_words_per_chapter[i] <- length(splitsplat)
+  }
+barplot(y_words_per_chapter, main = "Number of Words Per Chapter",
+        xlab = "Chapter Number", ylab = "Words Number", names.arg = x_chapter_num,
+        col = "darkred")
+```
+
 
 ```{r, cache=TRUE}
 # Helper function: 
