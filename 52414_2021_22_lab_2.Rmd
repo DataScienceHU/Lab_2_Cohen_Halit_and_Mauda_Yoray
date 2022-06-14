@@ -89,6 +89,13 @@ chapters <- strsplit(cut_text, "\r\n\n\r\n\n\r \r \r\n\n\r\n\r\n\n\n\n\n\r\n\r "
 chapters <- chapters[[1]]
 chapters <- str_to_lower(chapters)
 chapters <- gsub('[[:punct:]]+',"",chapters)
+long_words <- c()
+for (i in 1:137){
+  long_words[i] <- chapters[i]
+}
+long_words <- as.list(long_words)
+one_vec <- Reduce(c, long_words)
+length(one_vec)
 ```
 
 Now, for plotting the data, we will loop over the chapters and extract the wanted data for our plot
@@ -163,9 +170,10 @@ Q3a <- function(word_query){
   }
   return (sum(total_word_count))
 }
+length(splitsplat)
 ```
 
-After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `sea`. So we will search the word, divide it in the total number of word in book, and because we hate two independent experiments we will raise it to the power of 2. We will receive `r (Q3a("sea")/total_words_amount)^2`, which is a very small probability indeed.
+After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `sea`. So we will search the word, divide it in the total number of word in book, and because we hate two independent experiments we will raise it to the power of 2. We will receive `r (Q3a("sea")/total_words_amount)^2`, which is a very small probability indeed. For the second method, we will make 100,000 rounds of simulation to see. 
 
 ```{r, cache=TRUE}
 # Helper function: 
