@@ -78,7 +78,36 @@ barplot(y_words_per_chapter, main = "Number of Words Per Chapter",
         xlab = "Chapter Number", ylab = "Words Number", names.arg = x_chapter_num,
         col = "darkred")
 ```
+###### B
 
+For this section we will create a function that will compute the frequency of a word in each given chapters. we will check the function and its trend in the words `Mody`, `Ahab`, and `sea`.
+
+```{r}
+Q2a <- function(word_query, chapters_num){
+  relative_freq <- c()
+  counter <- 1
+  for (i in as.numeric(chapters_num)){
+    relative_freq[counter] <- (str_count(chapters[i], word_query)/y_words_per_chapter[i])
+    counter <- counter + 1
+  }
+return(relative_freq)
+}
+
+ahab_plot <- Q2a("Ahab", c(1:137))
+barplot(ahab_plot, main = "Freq VS. Chapter for Ahab",
+        xlab = "Chapter Number", ylab = "Word Freq", names.arg = x_chapter_num,
+        col = "darkblue")
+moby_plot <- Q2a("Moby", c(1:137))
+barplot(moby_plot, main = "Freq VS. Chapter for Moby",
+        xlab = "Chapter Number", ylab = "Word Freq", names.arg = x_chapter_num,
+        col = "darkgreen")
+sea_plot <- Q2a("sea", c(1:137))
+barplot(sea_plot, main = "Freq VS. Chapter for sea",
+        xlab = "Chapter Number", ylab = "Word Freq", names.arg = x_chapter_num,
+        col = "yellow")
+```
+
+As we can see, the most frequent word is `sea`, which also make sense based on the book's subject. the least frequent word is `Moby`, who barely shows in the book. For `Ahab`, we hear about him in the beginning of the book, and at the end more frequently.
 
 ```{r, cache=TRUE}
 # Helper function: 
