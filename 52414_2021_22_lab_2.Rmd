@@ -34,7 +34,7 @@ first_sentence <- webpage %>% html_nodes("div") %>% html_text()
 first_sentence[1]
 ```
 
-##### B
+###### B
 
 ```{r}
 words_html <- webpage %>% html_text() %>% str_split(",|\\.|[:space:]")
@@ -165,7 +165,7 @@ Q3a <- function(word_query){
 }
 ```
 
-After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `that`. So we will search the word, divide it in the total number of word in book, and because we hate two independant experiments we will raise it to the power of 2. We will receive ```r (Q3a("that")/total_words_amount)^2`.
+After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `sea`. So we will search the word, divide it in the total number of word in book, and because we hate two independent experiments we will raise it to the power of 2. We will receive `r (Q3a("sea")/total_words_amount)^2`.
 
 ```{r, cache=TRUE}
 # Helper function: 
