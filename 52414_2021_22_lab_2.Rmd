@@ -137,6 +137,24 @@ barplot(sea_plot, main = "Freq VS. Chapter for sea",
 
 As we can see, the most frequent word is `sea`, which also make sense based on the book's subject. the least frequent word is `Moby`, who barely shows in the book. For `Ahab`, we hear about him in the beginning of the book, and at the end more frequently.
 
+### Question 3
+
+###### A
+
+Suppose we have a fair dice, with 6 numbers on each side. Let's say Halit and I roll the 
+dice. We know that the probability to receive a single number is $\frac{1}{6}$. Thus, it does not matter the outcome, the probability for me to choose the same number as Halit is $ P = (\frac{1}{6})^2$. This example was given in order to show that for Alice and Bob to choose the same word, is finding out the number of times a word is in the whole book, then finding out how many words we have in general, and finally just multiply this result by itself. Let's begin. First, we have the vector `y_words_per_chapter` from previous missions, so lets sum them all up to find out how many words we have overall.
+
+```{r}
+total_words_amount <- sum(y_words_per_chapter)
+total_words_amount
+```
+
+After finding out the total number of words we have, we would like to check how many number of a specific word we have inside a book.
+
+```{r}
+
+```
+
 ```{r, cache=TRUE}
 # Helper function: 
 wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location, 0: missing
