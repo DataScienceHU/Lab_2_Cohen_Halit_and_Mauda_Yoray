@@ -87,6 +87,8 @@ We will not print the results we have received because it is long, but we have n
 ```{r}
 chapters <- strsplit(cut_text, "\r\n\n\r\n\n\r \r \r\n\n\r\n\r\n\n\n\n\n\r\n\r ")
 chapters <- chapters[[1]]
+chapters <- str_to_lower(chapters)
+chapters <- gsub('[[:punct:]]+',"",chapters)
 ```
 
 Now, for plotting the data, we will loop over the chapters and extract the wanted data for our plot
@@ -112,6 +114,7 @@ For this section we will create a function that will compute the frequency of a 
 
 ```{r}
 Q2a <- function(word_query, chapters_num){
+  word_query <- str_to_lower(word_query)
   relative_freq <- c()
   counter <- 1
   for (i in as.numeric(chapters_num)){
@@ -149,11 +152,20 @@ total_words_amount <- sum(y_words_per_chapter)
 total_words_amount
 ```
 
-After finding out the total number of words we have, we would like to check how many number of a specific word we have inside a book.
+After finding out the total number of words we have, we would like to check how many number of a specific word we have inside a book. For that, we will take the OG `Q2a` function and will change it a bit.
 
 ```{r}
-
+Q3a <- function(word_query){
+  word_query <- str_to_lower(word_query)
+  total_word_count <- c()
+  for (i in 1:137){
+    total_word_count[i] <- str_count(chapters[i], word_query)
+  }
+  return (sum(total_word_count))
+}
 ```
+
+After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `that`. So we will search the word, divide it in the total number of word in book, and because we hate two independant experiments we will raise it to the power of 2. We will receive ```r (Q3a("that")/total_words_amount)^2`.
 
 ```{r, cache=TRUE}
 # Helper function: 
