@@ -308,8 +308,15 @@ strategy_1 <- function(unknown_word){
   }
   return(counter)
 }
+```
+
+We have created the function. Now let's see the naive way on the word `mouse`.
+
+```{r}
 strategy_1("mouse")
 ```
+
+
 
 
 
