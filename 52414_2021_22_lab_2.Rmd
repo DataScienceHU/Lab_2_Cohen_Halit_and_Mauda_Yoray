@@ -14,6 +14,8 @@ library(tidytext)
 library(rvest)
 ```  
 
+## Part 1 - MOBY DICK
+
 ### Question 1
 
 In this question, we will wrangle and scrape data from the book "Moby Dick", extract information, print text, make numerous manipulation on the text, and also create different distributions for it.
@@ -253,12 +255,14 @@ letter_freq_pos <-
 letter_freq_pos
 ```
 
+## PART 2 - WORDLE
+
 ### 5
 
 ###### A
 
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, include=FALSE}
 # Helper function: 
 wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location, 0: missing
 {
