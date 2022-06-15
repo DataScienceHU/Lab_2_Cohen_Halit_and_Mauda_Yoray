@@ -302,7 +302,7 @@ strategy_1 <- function(unknown_word){
     if (added2 != unknown_word) {
       counter <- counter + 1
     } else {
-      print("Success! number of iterations:")
+      print("Success!")
       condition <- TRUE
     }
   }
@@ -313,10 +313,13 @@ strategy_1 <- function(unknown_word){
 We have created the function. Now let's see the naive way on the word `mouse`.
 
 ```{r}
-strategy_1("mouse")
+test <- strategy_1("mouse")
+test
 ```
 
+###### B
 
+In this section, we will write a mathematical formula for the distribution of the number of turns needed to guess the target word with the strategy in sub section A.
 
 
 
