@@ -55,15 +55,8 @@ freq_words <- sort(table(unlist(words_html)),
 mcw <-which.max(freq_words)
 mcw
 # the distribution of word 
-len_words <- length(words_html)
-vec_word_n <- c(rep(0,length(words_html)))
-for (i in (1:length(words_html))) {
-  vec_word_n[i] = (words_n[i]/len_words)
-}
-tab_wn <- table(words_n,vec_word_n)
-df <-data.frame(tab_wn)
-barplot(tab_wn, main="word length Distribution",
-   xlab="length word")
+tab_n<-table(str_length(words_html))/length(words_html)
+barplot(tab_n,main="word length Distribution")
 ```
 
 ### Question 2
@@ -197,12 +190,9 @@ number_dif
 ###### B
 
 ```{r}
-letter_freq <-
-  five_letter_little_2 %>%
-  # Split each word into a vector of letters
-  str_split("") %>%
-  # Keep one of each letter per word
-  map(unique) %>%
+letter_freq <-five_letter_little_2 %>% str_split("") %>% # Split  word to a vector
+  map(unique) %>%  # Keep one of each letter per word
+
   # Unlist into a big vector of letters
   unlist() %>%
   # Count the letters (each appearance in a word)
@@ -236,6 +226,9 @@ letter_freq_pos <-
   )
 letter_freq_pos
 ```
+
+###5
+###A
 
 
 #```{r, cache=TRUE}
