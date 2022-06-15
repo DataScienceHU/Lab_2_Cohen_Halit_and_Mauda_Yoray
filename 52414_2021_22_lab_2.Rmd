@@ -172,7 +172,6 @@ After computing number of given word in the book, we can finally compute to prob
 full_book_string <- webpage %>% html_nodes("body") %>% html_text()
 full_book_string <- str_replace_all(full_book_string, "\\s+", " ")
 full_book_string <- str_to_lower(full_book_string)
-full_book_string
 ```
 
 ### Question 4
@@ -186,13 +185,13 @@ clean_five_letter <-str_subset(clean_words, "^.....$")
 five_letter_little<- str_to_lower(clean_five_letter)
 five_letter_tab <- table(five_letter_little)
 #most frequent five-letter words with their frequencies
-sort(five_word_rep, decreasing = TRUE)[1:10]
+sort(five_letter_tab, decreasing = TRUE)[1:10]
 five_letter_little_2 <- five_letter_little
 #The difference between all the words and 5-word words
 unique_all_word <-unique(clean_words)
 unique_five_words <-unique(five_letter_little)
-Number_dif <- length(unique_all_word)-length(unique_five_words)
-Number_dif
+number_dif <- length(unique_all_word)-length(unique_five_words)
+number_dif
 ```
 
 ###### B
@@ -239,7 +238,7 @@ letter_freq_pos
 ```
 
 
-```{r, cache=TRUE}
+#```{r, cache=TRUE}
 # Helper function: 
 wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location, 0: missing
 {
