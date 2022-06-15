@@ -101,6 +101,7 @@ barplot(y_words_per_chapter, main = "Number of Words Per Chapter",
         xlab = "Chapter Number", ylab = "Words Number", names.arg = x_chapter_num,
         col = "darkred")
 ```
+
 ###### B
 
 For this section we will create a function that will compute the frequency of a word in each given chapters. we will check the function and its trend in the words `Mody`, `Ahab`, and `sea`.
@@ -159,13 +160,29 @@ Q3a <- function(word_query){
 length(splitsplat)
 ```
 
-After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `sea`. So we will search the word, divide it in the total number of word in book, and because we hate two independent experiments we will raise it to the power of 2. We will receive `r (Q3a("sea")/total_words_amount)^2`, which is a very small probability indeed. For the second method, we will make 100,000 rounds of simulation to see. Plus, We will create an entire string of the book for the job.
+After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `sea`. So we will search the word, divide it in the total number of word in book, and because we hate two independent experiments we will raise it to the power of 2. We will receive `r (Q3a("sea")/total_words_amount)^2`, which is a very small probability indeed. <br> For the second method, we will make 100,000 rounds of simulation to see. But first, we will create an entire string of the book for the job.
 
 ```{r}
 full_book_string <- webpage %>% html_nodes("body") %>% html_text()
 full_book_string <- str_replace_all(full_book_string, "\\s+", " ")
 full_book_string <- str_to_lower(full_book_string)
+full_book_string <- gsub('[[:punct:]]+',"",full_book_string)
+full_book_string <- gsub('[[:digit:]]+', "", full_book_string)
+full_book_string <- str_split(full_book_string, " ")
+full_book_string <- full_book_string[[1]]
+full_book_string <- str_subset(full_book_string, ".+")
 ```
+
+Now that we finally have a divided long, cleaned string of the book, we can start to simulate.
+
+```{r}
+B <- 100000
+events <- replicate(B, sample(full_book_string, 1))
+tab <- table(events)
+prop.table(tab)
+```
+
+We can now see that the odds for each word, are very small. just like our first examination. <br> Most words in the book are pretty rare, and not commonly used. In addition, we can look at the table and see that most of the proportions are $0.00001$, which is indeed very small. Raise it to the power of 2 and you will receive `r 0.00001^2`. Very small! we can conclude that for the minimum of words occurrences, we do have a very small chance in having `Alice` and `Bob` choose the same word.
 
 ### Question 4
 
