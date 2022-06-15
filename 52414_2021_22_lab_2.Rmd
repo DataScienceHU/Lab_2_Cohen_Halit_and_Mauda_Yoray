@@ -257,11 +257,6 @@ letter_freq_pos
 
 ## PART 2 - WORDLE
 
-### 5
-
-###### A
-
-
 ```{r, cache=TRUE, include=FALSE}
 # Helper function: 
 wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location, 0: missing
@@ -279,5 +274,18 @@ wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location
   return(match)
 }
 ```
+
+### Question 5
+
+###### A
+
+### Question 6
+
+###### A
+
+In this section & question, we will solve our given word in a naive way. We will create a function that will receive the word we want to guess, and will first sample a random combination of words. the random combination will check itself against the given word we want to guess. The letters in the correct places will remain, and the rest of the place will get random again. <br> At the end, we will have the correct word after all the iterations, and we will also return the number of iterations it took us. 
+
+
+
 
 
