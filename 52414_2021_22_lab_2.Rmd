@@ -283,7 +283,33 @@ wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location
 
 ###### A
 
-In this section & question, we will solve our given word in a naive way. We will create a function that will receive the word we want to guess, and will first sample a random combination of words. the random combination will check itself against the given word we want to guess. The letters in the correct places will remain, and the rest of the place will get random again. <br> At the end, we will have the correct word after all the iterations, and we will also return the number of iterations it took us. 
+In this section & question, we will solve our given word in a naive way. We will create a function that will receive the word we want to guess, and will first sample a random combination of words. the random combination will check itself against the given word we want to guess. The letters in the correct places will remain, and the rest of the place will get random again. <br> At the end, we will have the correct word after all the iterations, and we will also return the number of iterations it took us. Let's start.
+
+```{r}
+strategy_1 <- function(unknown_word){
+  unknown_word <- str_to_lower(unknown_word)
+  added <- c()
+  condition <- FALSE
+  counter <- 0
+  while (condition == FALSE){
+    comb <- sample(letters, 5)
+    comb <- paste(comb, collapse = "")
+    match <- wordle_match(comb, unknown_word)
+    split_comb <- str_split(comb, "")
+    split_comb <- split_comb[[1]]
+    added[which(match == 1)] <- split_comb[which(match == 1)]
+    added2 <- paste(added, collapse = "")
+    if (added2 != unknown_word) {
+      counter <- counter + 1
+    } else {
+      print("Success! number of iterations:")
+      condition <- TRUE
+    }
+  }
+  return(counter)
+}
+strategy_1("mouse")
+```
 
 
 
