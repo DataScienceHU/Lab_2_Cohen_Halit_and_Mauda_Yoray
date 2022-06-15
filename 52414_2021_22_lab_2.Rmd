@@ -56,7 +56,7 @@ mcw <-which.max(freq_words)
 mcw
 # the distribution of word 
 tab_n<-table(str_length(words_html))/length(words_html)
-barplot(tab_n,main="word length Distribution")
+barplot(tab_n,main="Word Length Distribution")
 ```
 
 ### Question 2
