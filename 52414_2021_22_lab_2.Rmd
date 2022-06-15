@@ -157,7 +157,6 @@ Q3a <- function(word_query){
   }
   return (sum(total_word_count))
 }
-length(splitsplat)
 ```
 
 After computing number of given word in the book, we can finally compute to probability. For example purposes, lets say we want the word `sea`. So we will search the word, divide it in the total number of word in book, and because we hate two independent experiments we will raise it to the power of 2. We will receive `r (Q3a("sea")/total_words_amount)^2`, which is a very small probability indeed. <br> For the second method, we will make 100,000 rounds of simulation to see. But first, we will create an entire string of the book for the job.
@@ -183,6 +182,16 @@ prop.table(tab)
 ```
 
 We can now see that the odds for each word, are very small. just like our first examination. <br> Most words in the book are pretty rare, and not commonly used. In addition, we can look at the table and see that most of the proportions are $0.00001$, which is indeed very small. Raise it to the power of 2 and you will receive `r 0.00001^2`. Very small! we can conclude that for the minimum of words occurrences, we do have a very small chance in having `Alice` and `Bob` choose the same word.
+
+###### B
+
+Lets create a string with only unique words first. <br> Then, we will compute the probability in that case, and compare it to our first initial thought.
+
+```{r}
+full_unique_book_string <- unique(full_book_string)
+```
+
+Our initial `full_book_string` had `r length(full_book_string)` words, and our `full_unique_book_string` has `r length(full_unique_book_string)` words. Now let us check the probability. <br> We know that in `full_unique_book_string` we have each word only one time. so, the probability to choose each word is $\frac{1}{uniquetotalnum}$, raised to the power of 2. Thus, we can see that the probability is `r (1/19966)^2`. <br> we have even smaller odds now, and it makes sense. when we have such a major proportion difference, it is logical that we have a smaller chance. Thus, we can conclude that the probability in a is *higher*.
 
 ### Question 4
 
