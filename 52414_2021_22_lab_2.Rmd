@@ -210,15 +210,15 @@ Lets create a string with only unique words first. <br> Then, we will compute th
 ###### A
 
 ```{r}
-#clean data
+# Clean data
 clean_words <- words_html[-str_which(words_html,"[^a-z, ]+")] 
 clean_five_letter <-str_subset(clean_words, "^.....$")
 five_letter_little<- str_to_lower(clean_five_letter)
 five_letter_tab <- table(five_letter_little)
-#most frequent five-letter words with their frequencies
+# Most frequent five-letter words with their frequencies
 sort(five_letter_tab, decreasing = TRUE)[1:10]
 five_letter_little_2 <- five_letter_little
-#The difference between all the words and 5-word words
+# The difference between all the words and 5-word words
 unique_all_word <-unique(clean_words)
 unique_five_words <-unique(five_letter_little)
 number_dif <- length(unique_all_word)-length(unique_five_words)
@@ -229,7 +229,7 @@ number_dif
 
 ```{r}
 freq_table <- function(str) {
-  #we creat matrix that help us to see the freqy prsent 
+  # We create matrix that help us to see the freq present 
   freq_mat <- matrix(0,26,5)
   colnames(freq_mat) <- c("1","2","3","4","5")
   rownames(freq_mat) <- letters[1:26]
@@ -247,13 +247,14 @@ freq_table <- function(str) {
 freq_table_var <-freq_table(unique_five_words)
 freq_table_var
 
-#crest heat map
+# Create heat map
 heatmap(freq_table_var,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
 ```
 We can see that ‘e','S’ are most common and the place that "s" most common is in the first and end the word.
 
 
-###c
+###### C
+
 ```{r}
 #Here, too, we use a matrix calculation in order to show the top-10 words with the highest likelihood.
 likelihood_words<- function(str) {
@@ -281,7 +282,9 @@ head(tab_likelihood,10)
 ```
 
 ### Question 5
-###a
+
+###### A
+
 ```{r}
 #read list
 url2 <- 'https://raw.githubusercontent.com/DataScienceHU/Lab_2_Cohen_Halit_and_Mauda_Yoray/main/sgb-words.txt'
@@ -314,7 +317,8 @@ It can be seen that because the number of words in the new vocabulary is greater
 There are places where the probability of the signal being in place has increased, a prominent example of this can be seen in the letter Z in position 5.  
 In addition there are places where the probability has decreased and there are places that remain unchanged such as the presence of the letter i at the end of a word.  
 
-###b
+###### B
+
 ```{r}
 # Helper function: 
 wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location, 0: missing
