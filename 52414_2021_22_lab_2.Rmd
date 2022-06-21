@@ -250,7 +250,7 @@ freq_table_var
 #crest heatmap
 heatmap(freq_table_var,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
 ```
-We can see that ‘e','S’ are most common and the place that "s" most commos is in the first and end the word.
+We can see that ‘e','S’ are most common and the place that "s" most common is in the first and end the word.
 
 
 ###c
