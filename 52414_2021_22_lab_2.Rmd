@@ -247,7 +247,7 @@ freq_table <- function(str) {
 freq_table_var <-freq_table(unique_five_words)
 freq_table_var
 
-#crest heatmap
+#crest heat map
 heatmap(freq_table_var,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
 ```
 We can see that ‘e','S’ are most common and the place that "s" most common is in the first and end the word.
