@@ -184,6 +184,7 @@ res = 0
 for (i in 1:length(full_unique_book_string)){
   res = res + Q3a(full_unique_book_string[i])
 }
+full_book_string
 ```
 
 After computing number of given word in the book, we can finally compute to probability. For the second method, we will make 100,000 rounds of simulation to see. But first, we will create an entire string of the book for the job.
