@@ -136,7 +136,7 @@ barplot(sea_plot, main = "Freq VS. Chapter for sea",
 
 As we can see, the most frequent word is `sea`, which also make sense based on the book's subject. the least frequent word is `Moby`, who barely shows in the book. For `Ahab`, we hear about him in the beginning of the book, and at the end more frequently.
 
-###4
+###4.  
 ###a
 ```{r, cache=TRUE}
 #clean data
@@ -155,47 +155,88 @@ Number_dif
 ```
 ###b
 ```{r}
-letter_freq <-
-  five_letter_little_2 %>%
-  # Split each word into a vector of letters
-  str_split("") %>%
-  # Keep one of each letter per word
-  map(unique) %>%
-  # Unlist into a big vector of letters
-  unlist() %>%
-  # Count the letters (each appearance in a word)
-  table() %>%
-  # Most popular letters first
-  sort(decreasing = TRUE) %>%
-  # Turn into frequency table
-  `/`(length(five_letter_little_2)) %>%
-  # Remove attributes from table()
-  c()
-letter_freq_pos <-
-  tibble(word = five_letter_little_2) %>%
-  select(word) %>%
-  mutate(letter = word) %>%
-  tidyr::separate_rows(letter, sep = "") %>%
-  filter(letter != "") %>%
-  group_by(word) %>%
-  mutate(position = row_number()) %>%
-  group_by(letter, position) %>%
-  summarize(n = n(), .groups = "drop") %>%
-  mutate(
-    five_letter_little_2 = letter_freq[letter] * length(!!five_letter_little_2),
-    freq = n / five_letter_little_2
-  ) %>%
-  select(-n, -five_letter_little_2) %>%
-  tidyr::pivot_wider(
-    names_from = position,
-    values_from = freq,
-    values_fill = 0,
-    names_prefix = "p"
-  )
-letter_freq_pos
+freq_table <- function(str) {
+  #we creat matrix that help us to see the freqy prsent 
+  freq_mat <- matrix(0,26,5)
+  colnames(freq_mat) <- c("1","2","3","4","5")
+  rownames(freq_mat) <- letters[1:26]
+  sum <- 1
+#i -Go through every word
+      #Go through each letter
+  for (i in str){
+    for (j in unlist(strsplit(i,""))){
+       freq_mat[j,sum] <-  freq_mat[j,sum] + 1
+       sum <- sum + 1
+      if (sum == 6){sum <- 1}}}
+  freq_mat <-freq_mat/ colSums(freq_mat)[1]
+  return( freq_mat)}
+
+freq_table_var <-freq_table(unique_five_words)
+freq_table_var
+
+#crest heatmap
+heatmap(freq_table_var,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
+```
+###b
+```{r}
+#Here, too, we use a matrix calculation in order to show the top-10 words with the highest likelihood.
+likelihood_words<- function(str) {
+  tab_basis<- freq_table(str)
+  #normalized to probabilities
+  column_a <- as.matrix(str)
+  new_word_matrix <- rep(1,length(str))
+  new_word_matrix <- cbind(column_a ,new_word_matrix)
+  #Create the subject of the columns
+  colnames(new_word_matrix) <- c("word", "prob")
+  rownames(new_word_matrix) <- c(1:length(str))
+  new_word_matrix <- as.data.frame(new_word_matrix)
+  new_word_matrix[,2] <- as.numeric(new_word_matrix[,2])
+  #i -Go through every word
+  for (i in 1:length(str)) {
+    worde_2 <- unlist(strsplit(str[i],""))
+    #Go through each letter
+    for (j in 1:length(worde_2)){
+        new_word_matrix[i,2] <- new_word_matrix[i,2] * tab_basis[worde_2[j],j]}}
+  #Show the top-10 words with the highest likelihood
+  order_words <- new_word_matrix[order(-new_word_matrix$prob),]
+  return(order_words)}
+tab_likelihood<-likelihood_words(unique_five_words)
+head(tab_likelihood,10)
 ```
 
-```{r, cache=TRUE}
+###5
+###A
+```{r}
+#read list
+url2 <- 'https://raw.githubusercontent.com/DataScienceHU/Lab_2_Cohen_Halit_and_Mauda_Yoray/main/sgb-words.txt'
+# Read the html into r:
+w_words <- read_html(url2)
+w_words_5 <- w_words %>%html_text()
+w_words_5 <-w_words_5%>% str_split("\n")%>%unlist()
+class(w_words_5)
+```
+
+```{r}
+# frequency table: 
+letter_freq_ww5 <-w_words_5 %>% str_split("") %>% # Split to a vector 
+  map(unique) %>%unlist() %>% #one letter per word
+  table() %>% sort(decreasing = TRUE) %>%
+  `/`(length(w_words_5)) %>% c()
+
+#frequency table per position:
+freq_table(w_words_5) 
+```
+
+```{r}
+length(w_words_5)
+length(unique_five_words)
+```
+It can be seen that because the number of words in the new vocabulary is greater than the number of words we extracted from the book the probabilities change.  
+There are places where the probability of the signal being in place has increased, a prominent example of this can be seen in the letter Z in position 5.  
+In addition there are places where the probability has decreased and there are places that remain unchanged such as the presence of the letter i at the end of a word.  
+
+###b
+```{r}
 # Helper function: 
 wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location, 0: missing
 {
@@ -213,4 +254,21 @@ wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location
 }
 ```
 
-
+```{r}
+mach_word<- function(guess,results,dictionary){
+  words_d <- dictionary
+  #i -Go through every word 
+  #j -Go through every Single result
+  for (i in dictionary){
+    for (j in 1:length(results)){
+      match <- wordle_match(guess[[j]], i)
+      word_match_test <-match == results[[j]]
+      #We will leave only what had a match
+      if (length(word_match_test[word_match_test == TRUE]) != 5) {
+        words_d <- words_d[words_d != i]}}} 
+  return(words_d)}
+#chek the function
+gues<- list("south", "north")
+res <- list(c(-1, 1, 1, 0, 0), c(0, 1, 0, 0, 0))
+mach_word(gues,res,w_words_5)
+```
