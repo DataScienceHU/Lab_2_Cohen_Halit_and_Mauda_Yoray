@@ -61,6 +61,8 @@ tab_n<-table(str_length(words_html))/length(words_html)
 barplot(tab_n,main="Word Length Distribution")
 ```
 
+Not surprisingly, the most common words are conjunction or body pronouns.  
+
 ### Question 2
 
 ###### A
@@ -248,6 +250,9 @@ freq_table_var
 #crest heatmap
 heatmap(freq_table_var,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
 ```
+We can see that ‘e','S’ are most common and the place that "s" most commos is in the first and end the word.
+
+
 ###c
 ```{r}
 #Here, too, we use a matrix calculation in order to show the top-10 words with the highest likelihood.
@@ -295,7 +300,10 @@ letter_freq_ww5 <-w_words_5 %>% str_split("") %>% # Split to a vector
   `/`(length(w_words_5)) %>% c()
 
 #frequency table per position:
-freq_table(w_words_5) 
+freq_table_v<-freq_table(w_words_5)
+freq_table_v
+heatmap(freq_table_v,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
+
 ```
 
 ```{r}
