@@ -457,7 +457,20 @@ From the plot, we can see that we are pretty close according to Monte-Carlo way 
 
 ###### A
 
-In this sub question we will implement 2 new strategies: *strategy 1* and *strategy 2*.
+In this sub question we will implement 2 new strategies: *strategy 1* and *strategy 2*. <br> For *strategy 2*, we will guess the word with the highest likelihood, of the remaining words that are consistent with the previous guesses, at each stage. That means, we keep guessing until we find the correct word. <br> we will call the function as instructed, `strategy_2`.
+
+```{r}
+strategy_2 <- function(given_word){
+  count <- 0
+  result <- c(0,0,0,0,0)
+  while (sum(result) != 5){
+    count <- count + 1
+    
+  }
+}
+```
+
+
 
 
 
