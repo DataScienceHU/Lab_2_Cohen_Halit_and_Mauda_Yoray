@@ -1,6 +1,6 @@
 ---
-title: "52414 - lab 2 "
-author: "Yoray Mauda 315874404 and Halit Cohen 318356854"
+title: "52414 - lab 2"
+author: "Yoray Mauda 315874404, Halit Cohen 318356854"
 date: "21/06/2022"
 output: html_document
 ---
@@ -44,22 +44,22 @@ first_sentence[1]
 words_html <- webpage %>% html_text() %>% str_split(",|\\.|[:space:]")
 words_html <- words_html[[1]]
 words_html <- words_html[words_html!=""]
-#count words
+# Counting words
 print(length(words_html))
-# length words
-words_n <-nchar(words_html)
-#longest word, mean, median
+# Length words
+words_n <- nchar(words_html)
+# Longest word, mean, and median
 max(words_n)
 mean(words_n)
 median(words_n)
 # Create frequency table
 freq_words <- sort(table(unlist(words_html)),
                decreasing = TRUE)
-#most common word
-mcw <-which.max(freq_words)
+# Most common word
+mcw <- which.max(freq_words)
 mcw
 # the distribution of word 
-tab_n<-table(str_length(words_html))/length(words_html)
+tab_n <- table(str_length(words_html))/length(words_html)
 barplot(tab_n,main="Word Length Distribution")
 ```
 
