@@ -14,6 +14,8 @@ library(tidytext)
 library(rvest)
 ```  
 
+# Solutions:
+
 ## Part 1 - MOBY DICK
 
 ### Question 1
@@ -301,8 +303,8 @@ head(tab_likelihood,10)
 url2 <- 'https://raw.githubusercontent.com/DataScienceHU/Lab_2_Cohen_Halit_and_Mauda_Yoray/main/sgb-words.txt'
 # Read the html into r:
 w_words <- read_html(url2)
-w_words_5 <- w_words %>%html_text()
-w_words_5 <-w_words_5%>% str_split("\n")%>%unlist()
+w_words_5 <- w_words %>% html_text()
+w_words_5 <- w_words_5 %>% str_split("\n") %>% unlist()
 class(w_words_5)
 ```
 
@@ -348,6 +350,8 @@ wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location
 }
 ```
 
+Now let's use the helper function:
+
 ```{r}
 mach_word<- function(guess,results,dictionary){
   words_d <- dictionary
@@ -356,7 +360,7 @@ mach_word<- function(guess,results,dictionary){
   for (i in dictionary){
     for (j in 1:length(results)){
       match <- wordle_match(guess[[j]], i)
-      word_match_test <-match == results[[j]]
+      word_match_test <- match == results[[j]]
       #We will leave only what had a match
       if (length(word_match_test[word_match_test == TRUE]) != 5) {
         words_d <- words_d[words_d != i]}}} 
@@ -390,7 +394,6 @@ strategy_1 <- function(unknown_word){
     if (added2 != unknown_word) {
       counter <- counter + 1
     } else {
-      print("Success!")
       condition <- TRUE
     }
   }
@@ -407,8 +410,54 @@ test
 
 ###### B
 
-In this section, we will write a mathematical formula for the distribution of the number of turns needed to guess the target word with the strategy in sub section A. Let $X$ be the five letter word we are trying to compute, and $P$ is the probability. We know that each letter of $X$ are geometrically distributed, since we are trying to match a letter randomly until we succeed. $X_{i} , 1 \le i \le 5$. We know that the *cumulative* geometric distribution is $P(X\le x) = 1 - (1-p)^x$. We are not using the regular probability distribution from obvious reason, which is we can't use it because we have $X_{i}$ every time for each letter inside of $X$, and we continue to do it inside until we finish everything in $X$. In order to find specific place in time, and to find out what $P(X=k), 1 \le k \le \infty$, we can understand that we can take all the cumulative until that point, and reduce it from everything until the point before. And since $K\in \mathbb{N}$, it makes since. The mathematical notation is $P(X=k)=P(X \le k)-P(X \le k-1)$. <br> If we will input the cumulative from before we receive: $$P(X=k)=1 - (1-p)^k -[1 - (1-p)^{k-1}]$$ We know that $P$ is the probability to nail a letter correct out of the English letters, so it is $\frac{1}{26}$. So obviously $1-P=\frac{25}{26}$. <br> inserting the data we receive $P(X=k)=1 - (\frac{25}{26})^k -[1 - (\frac{25}{26})^{k-1}]$. We now have the specific distribution, but in order to have it across all the indexes, we need to raise it to the power of 5. We were asked to find the number of turns needed to guess the target word with this strategy. From the question, we can conclude we are talking about $E(X)$. The final product is $$E(X) = \sum_{k=1}^{\infty} k*\left[ [1 - (\frac{25}{26})^k]^5 -[1 - (\frac{25}{26})^{k-1}]^5 \right]$$ $Q.E.D$
+In this section, we will write a mathematical formula for the distribution of the number of turns needed to guess the target word with the strategy in sub section A. Let $X$ be the five letter word we are trying to compute, and $P$ is the probability. We know that each letter of $X$ are geometrically distributed, since we are trying to match a letter randomly until we succeed. $X_{i} , 1 \le i \le 5$. We know that the *cumulative* geometric distribution is $P(X\le x) = 1 - (1-p)^x$. We are not using the regular probability distribution from obvious reason, which is we can't use it because we have $X_{i}$ every time for each letter inside of $X$, and we continue to do it inside until we finish everything in $X$. In order to find specific place in time, and to find out what $P(X=k), 1 \le k \le \infty$, we can understand that we can take all the cumulative until that point, and reduce it from everything until the point before. And since $K\in \mathbb{N}$, it makes since. The mathematical notation is $P(X=k)=P(X \le k)-P(X \le k-1)$. <br> If we will input the cumulative from before we receive: $$P(X=k)=1 - (1-p)^k -[1 - (1-p)^{k-1}]$$ We know that $P$ is the probability to nail a letter correct out of the English letters, so it is $\frac{1}{26}$. So obviously $1-P=\frac{25}{26}$. <br> inserting the data we receive $P(X=k)=1 - (\frac{25}{26})^k -[1 - (\frac{25}{26})^{k-1}]$. We now have the specific distribution, but in order to have it across all the indexes, we need to raise it to the power of 5. We were asked to find the number of turns needed to guess the target word with this strategy. From the question, we can conclude we are talking about $E(X)$. The final product is $$E(X) = \sum_{k=1}^{\infty} k*\left[ [1 - (\frac{25}{26})^k]^5 -[1 - (\frac{25}{26})^{k-1}]^5 \right]$$ $Q.E.D$ <br> Now, let's run for 10,000 tries and see what we get for $E(X)$.
 
+```{r}
+E <- 0 # The expectancy
+E_v <- c()
+probability <- 0
+cumulative_prob <- c()
+for (k in 1:10000){
+  E_v[k] <- ((1-(25/26)**k)**5 - (1-(25/26)**(k-1))**5)
+  E <- E + k*E_v[k]
+  probability <- probability + E_v[k]
+  cumulative_prob[k] <- probability
+}
+E
+```
+
+We received $E(X)$ is equal to `r E`.
+
+###### C
+
+In this sub section, we will compute empirically the distribution of the number of turns using the following Monte-Carlo simulation we learned in class.
+
+```{r}
+# 1 - Drawing 5 letters from our list of 5 letter words
+random_100 <- sample(w_words_5, 100)
+num_of_tries <- c()
+# 2 - For each unknown word, we run the guessing strategy implemented in (a.) and record the number of turns
+for (i in 1:length(random_100)){
+  num_of_tries[i] <- strategy_1(random_100[i])
+}
+# Step 3 - Computing the AVG
+avg_number_of_tries <- sum(num_of_tries)/100
+```
+
+We received the average number of tries is `r avg_number_of_tries`. Now let's prepare step 3 - plotting everything together.
+
+```{r}
+plot(seq(1,max(num_of_tries)),cumulative_prob[1:max(num_of_tries)], xlab = 'Num of Tries', ylab = 'Probability')
+lines(ecdf(num_of_tries), col= 'yellow')
+```
+
+From the plot, we can see that we are pretty close according to Monte-Carlo way we learned. For Expectancy comparison, we have `r E` in the first method, and here we received `r sum(num_of_tries)/100`. We can see the difference is `r abs(E - sum(num_of_tries)/100)`, which is not a big of a difference.
+
+### Question 7
+
+###### A
+
+In this sub question we will implement 2 new strategies: *strategy 1* and *strategy 2*.
 
 
 
