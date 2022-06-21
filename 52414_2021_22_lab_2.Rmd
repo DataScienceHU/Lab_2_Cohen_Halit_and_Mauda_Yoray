@@ -165,7 +165,7 @@ full_book_df <- data.frame(word = full_book_string)
 words_data <- full_book_df %>% group_by(word) %>% count()
 ```
 
-Our initial `full_book_string` have `r length(full_book_string)` words, and our `full_unique_book_string` have `r length(full_unique_book_string)` words. Now let us check everything, starting with the wanted function for a specific word.
+Now let us check everything, starting with the wanted function for a specific word.
 
 ```{r}
 Q3a <- function(word_query){
@@ -213,7 +213,7 @@ Lets create a string with only unique words first. <br> Then, we will compute th
 unique_full_book <- unique(full_book_string)
 ```
 
-Just like in the dice example, when we have unique numbers all the time, we can do the same here, and compute it as one over length of `unique_full_book`. the result is `r (1/length(unique_full_book))^2`. the probability is extremely smaller than the others. So yeah, it is smaller.
+Our initial `full_book_string` have `r length(full_book_string)` words, and our `unique_full_book` have `r length(unique_full_book)` words. <br> Just like in the dice example, when we have unique numbers all the time, we can do the same here, and compute it as one over length of `unique_full_book`. the result is `r (1/length(unique_full_book))^2`. the probability is extremely smaller than the others. So yeah, it is smaller.
 
 ### Question 4
 
@@ -260,31 +260,32 @@ freq_table_var
 # Create heat map
 heatmap(freq_table_var,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
 ```
+
 We can see that ‘e','S’ are most common and the place that "s" most common is in the first and end the word.
 
 
 ###### C
 
 ```{r}
-#Here, too, we use a matrix calculation in order to show the top-10 words with the highest likelihood.
+# Here, too, we use a matrix calculation in order to show the top-10 words with the highest likelihood.
 likelihood_words<- function(str) {
   tab_basis<- freq_table(str)
-  #normalized to probabilities
+  # Normalized to probabilities
   column_a <- as.matrix(str)
   new_word_matrix <- rep(1,length(str))
   new_word_matrix <- cbind(column_a ,new_word_matrix)
-  #Create the subject of the columns
+  # Create the subject of the columns
   colnames(new_word_matrix) <- c("word", "prob")
   rownames(new_word_matrix) <- c(1:length(str))
   new_word_matrix <- as.data.frame(new_word_matrix)
   new_word_matrix[,2] <- as.numeric(new_word_matrix[,2])
-  #i -Go through every word
+  # i - Goes through every word
   for (i in 1:length(str)) {
     worde_2 <- unlist(strsplit(str[i],""))
-    #Go through each letter
+    # Goes through each letter
     for (j in 1:length(worde_2)){
         new_word_matrix[i,2] <- new_word_matrix[i,2] * tab_basis[worde_2[j],j]}}
-  #Show the top-10 words with the highest likelihood
+  # Shows the top-10 words with the highest likelihood
   order_words <- new_word_matrix[order(-new_word_matrix$prob),]
   return(order_words)}
 tab_likelihood<-likelihood_words(unique_five_words)
