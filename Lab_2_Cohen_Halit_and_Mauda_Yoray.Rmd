@@ -461,12 +461,24 @@ In this sub question we will implement 2 new strategies: *strategy 1* and *strat
 
 ```{r}
 strategy_2 <- function(given_word){
+  word_list = w_words_5
   count <- 0
-  result <- c(0,0,0,0,0)
+  
+# make freq function
+  likelyhood_list_ordered <- likelihood_words(word_list)
+  
+  guess_word <- likelyhood_list_ordered$word[1]
+  result <- wordle_match(guess_word, given_word)
   while (sum(result) != 5){
     count <- count + 1
     
+    word_list <- mach_word(guess_word, result,word_list)
+    
+    likelyhood_list_ordered <- likelihood_words(word_list)
+    guess_word <- likelyhood_list_ordered$word[1]
+    result <- wordle_match(guess_word, given_word)
   }
+return(count)
 }
 ```
 
