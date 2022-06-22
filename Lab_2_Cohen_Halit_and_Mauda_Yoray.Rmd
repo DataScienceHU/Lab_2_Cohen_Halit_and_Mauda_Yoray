@@ -434,7 +434,7 @@ In this sub section, we will compute empirically the distribution of the number 
 
 ```{r}
 # 1 - Drawing 5 letters from our list of 5 letter words
-random_100 <- sample(w_words_5, 100)
+random_100 <- sample(unique_five_words, 100)
 num_of_tries <- c()
 # 2 - For each unknown word, we run the guessing strategy implemented in (a.) and record the number of turns
 for (i in 1:length(random_100)){
@@ -457,11 +457,10 @@ From the plot, we can see that we are pretty close according to Monte-Carlo way 
 
 ###### A
 
-In this sub question we will implement 2 new strategies: *strategy 1* and *strategy 2*. <br> For *strategy 2*, we will guess the word with the highest likelihood, of the remaining words that are consistent with the previous guesses, at each stage. That means, we keep guessing until we find the correct word. <br> we will call the function as instructed, `strategy_2`.
-
+In this sub question we will implement 2 new strategies: *strategy 3* and *strategy 2*. <br> For *strategy 2*, we will guess the word with the highest likelihood, of the remaining words that are consistent with the previous guesses, at each stage. That means, we keep guessing until we find the correct word. <br> we will call the function as instructed, `strategy_2`.
 ```{r}
 strategy_2 <- function(given_word){
-  word_list = w_words_5
+  word_list = unique_five_words
   count <- 0
   
 # make freq function
@@ -482,7 +481,33 @@ return(count)
 }
 ```
 
+`strategy_3`
+```{r}
+```
 
-
-
+###B.  
+the empirical CDFs of the number of guesses with  100 simulations show as :the mean and the similar between  the  strategy when we play the game.
+```{r}
+Q.7.b <- function(strategy_2,strategy_3){
+   #  take 100 words random in randome
+  word_unknow <- unique_five_words[sample(1:length(unique_five_words), 1000, TRUE)]
+  #df_strategy_2
+  rec2 <- sapply(word_unknow, strategy_2)
+  ave2 <- mean(rec2)
+  ecdf2 <- my_ecdf(1:25, sort(rec2))
+  df2 = data.frame(x=1:25, CDF=CDF_2, type="strategy_2")
+  
+  #df_strategy_3
+  rec3 <- sapply(word_unknow, strategy_3) 
+  ave3 <- mean(rec3)
+  ecdf3 <- my_ecdf(1:20, sort(rec3))
+  df3 = data.frame(x=1:20, CDF=CDF_3, type="strategy_3")
+  
+  #union
+  df_ecdf <- rbind(df2,df3)
+  
+  ggplot(df_ecdf) +
+    geom_line(aes(x, CDF, colour=type))
+  }
+```
 

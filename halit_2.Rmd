@@ -177,7 +177,7 @@ freq_table_var
 #crest heatmap
 heatmap(freq_table_var,Colv = NA ,Rowv = NA,scale ="column",xlab = "column",ylab = "letter")
 ```
-###b
+###c
 ```{r}
 #Here, too, we use a matrix calculation in order to show the top-10 words with the highest likelihood.
 likelihood_words<- function(str) {
