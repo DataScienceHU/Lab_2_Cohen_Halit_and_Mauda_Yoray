@@ -353,13 +353,13 @@ wordle_match <- function(guess, word)  # 1: correct location, -1: wrong location
 Now let's use the helper function:
 
 ```{r}
-mach_word<- function(guess,results,dictionary){
+match_word<- function(guess,results,dictionary){
   words_d <- dictionary
   #i -Go through every word 
   #j -Go through every Single result
   for (i in dictionary){
     for (j in 1:length(results)){
-      match <- wordle_match(guess[[j]], i)
+      match <- wordle_match(guess[j], i)
       word_match_test <- match == results[[j]]
       #We will leave only what had a match
       if (length(word_match_test[word_match_test == TRUE]) != 5) {
@@ -368,7 +368,7 @@ mach_word<- function(guess,results,dictionary){
 #chek the function
 gues<- list("south", "north")
 res <- list(c(-1, 1, 1, 0, 0), c(0, 1, 0, 0, 0))
-mach_word(gues,res,w_words_5)
+match_word(gues,res,w_words_5)
 ```
 
 ### Question 6
@@ -471,7 +471,7 @@ strategy_2 <- function(given_word){
   while (sum(result) != 5){
     count <- count + 1
     
-    word_list <- mach_word(guess_word, result,word_list)
+    word_list <- match_word(guess_word, result,word_list)
     
     likelyhood_list_ordered <- likelihood_words(word_list)
     guess_word <- likelyhood_list_ordered$word[1]
@@ -483,6 +483,28 @@ return(count)
 
 `strategy_3`
 ```{r}
+strategy_3 <- function(unknow_word,condition_print = TRUE){
+  #picked word from the dictionary
+  random_word_chosen  <- sample(unique_five_words,1)
+  guss_number <- 0
+  bank_word <- unique_five_words
+  while(!identical(unknow_word,random_word_chosen)){
+    #using the help func
+    result_tamplet <- wordle_match(random_word_chosen,unknow_word)
+    #filter "Bank_word" and stay with the relevant words and create new bank_word\dictionary
+    #using  answer in 5b
+    bank_word = match_word(random_word_chosen,result_tamplet,bank_word)
+    
+    #picked word from the dictionary again 
+    random_word_chosen  <- sample(unique_five_words,1)
+    guss_number<- guss_number+1
+    
+    if(condition_print == TRUE){
+      #return the write word
+      print(random_word_chosen,guss_number)}
+    }
+  }
+
 ```
 
 ###B.  
