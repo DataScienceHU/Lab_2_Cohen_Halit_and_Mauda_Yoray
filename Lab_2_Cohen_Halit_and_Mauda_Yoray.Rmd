@@ -270,20 +270,20 @@ We can see that ‘e','S’ are most common and the place that "s" most common i
 
 ```{r}
 # Here, too, we use a matrix calculation in order to show the top-10 words with the highest likelihood.
-likelihood_words<- function(str) {
-  tab_basis<- freq_table(str)
+likelihood_words<- function(words) {
+  tab_basis<- freq_table(words)
   # Normalized to probabilities
-  column_a <- as.matrix(str)
-  new_word_matrix <- rep(1,length(str))
+  column_a <- as.matrix(words)
+  new_word_matrix <- rep(1,length(words))
   new_word_matrix <- cbind(column_a ,new_word_matrix)
   # Create the subject of the columns
   colnames(new_word_matrix) <- c("word", "prob")
-  rownames(new_word_matrix) <- c(1:length(str))
+  rownames(new_word_matrix) <- c(1:length(words))
   new_word_matrix <- as.data.frame(new_word_matrix)
   new_word_matrix[,2] <- as.numeric(new_word_matrix[,2])
   # i - Goes through every word
-  for (i in 1:length(str)) {
-    worde_2 <- unlist(strsplit(str[i],""))
+  for (i in 1:length(words)) {
+    worde_2 <- unlist(strsplit(words[i],""))
     # Goes through each letter
     for (j in 1:length(worde_2)){
         new_word_matrix[i,2] <- new_word_matrix[i,2] * tab_basis[worde_2[j],j]}}
@@ -489,7 +489,7 @@ return(count)
 the empirical CDFs of the number of guesses with  100 simulations show as :the mean and the similar between  the  strategy when we play the game.
 ```{r}
 Q.7.b <- function(strategy_2,strategy_3){
-   #  take 100 words random in randome
+   #  take 100 words random in random
   word_unknow <- unique_five_words[sample(1:length(unique_five_words), 1000, TRUE)]
   #df_strategy_2
   rec2 <- sapply(word_unknow, strategy_2)
